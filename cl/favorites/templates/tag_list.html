@@ -14,9 +14,23 @@
   <div class="hidden-xs hidden-sm col-md-1 col-lg-2"></div>
   <div class="col-xs-12 col-md-10 col-lg-8">
     {% if is_page_owner %}
-      <h1><i class="fa fa-tags gray"></i>&nbsp;Your tags</h1>
+      {% if tags %}
+        <h1><i class="fa fa-tags gray"></i>&nbsp;Your tags</h1>
+      {% else %}
+        <div class="jumbotron text-center">
+          <h1><i class="fa fa-tags gray"></i><i class="fa fa-warning gray"></i></h1>
+          <h1>You do not have any tags</h1>
+        </div>
+      {% endif %}
     {% else %}
-      <h1><i class="fa fa-tags gray"></i>&nbsp;Tags for {{ requested_user }}</h1>
+      {% if tags %}
+        <h1><i class="fa fa-tags gray"></i>&nbsp;Tags for {{ requested_user }}</h1>
+      {% else %}
+        <div class="jumbotron text-center">
+          <h1><i class="fa fa-tags gray"></i><i class="fa fa-warning gray"></i></h1>
+          <h2>{{ requested_user }} has not shared any tags</h2>
+        </div>
+      {% endif %}
     {% endif %}
     {% for tag in tags %}
       {% if forloop.first %}
@@ -27,9 +41,11 @@
               <th>Name</th>
               <th>Title</th>
               <th>Created</th>
-              <th colspan="2">Views</th>
               {% if is_page_owner %}
-                <th>Published</th>
+                <th>Views</th>
+                <th colspan="2">Published</th>
+              {% else %}
+                <th colspan="2">Views</th>
               {% endif %}
             </tr>
             </thead>
@@ -51,12 +67,6 @@
             </tbody>
           </table>
         </div>
-      {% endif %}
-    {% empty %}
-      {% if is_page_owner %}
-        <h3>You do not have any tags.</h3>
-      {% else %}
-        <h3>{{ requested_user }} has not shared any tags.</h3>
       {% endif %}
     {% endfor %}
   </div>
