@@ -72,3 +72,16 @@ if (isSingleTagView) {
     });
   });
 }
+
+$('#modal-edit-delete').on('show.bs.modal', function (event) {
+  console.log('Logged');
+
+  const link = $(event.relatedTarget);
+  const tagId = link.data('tagId');
+  console.log(tagId);
+
+  // var recipient = button.data('whatever') // Extract info from data-* attributes
+  // // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  // var modal = $(this)
+});

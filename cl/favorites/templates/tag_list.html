@@ -11,7 +11,6 @@
 
 {% block footer-scripts %}
   <script defer type="text/javascript" src="{{ STATIC_URL }}js/tag-utils.js?v=20200722"></script>
-  {% render_bundle 'main' %} {% render_bundle 'vendor' %}
 {% endblock %}
 
 
@@ -52,12 +51,10 @@
         {% if is_page_owner %}
           <td>{{ tag.published|yesno|capfirst }}</td>
           <td class="text-right">
-            <a href="" class="btn btn-primary btn-sm inline">
-              <i class="fa fa-pencil"></i>&nbsp;Edit
-            </a>&nbsp;
-            <a title="Delete Tag" class="btn btn-danger btn-sm inline delete-tag-button" data-id={{ tag.id }}>
-              <i class="fa fa-times"></i> Delete
-            </a>
+            <button class="btn btn-primary btn-sm inline" data-tag-id="{{ tag.id }}"
+               data-target="#modal-edit-delete" data-toggle="modal">
+              <i class="fa fa-pencil"></i>&nbsp;Edit / Delete
+            </button>
           </td>
          {% endif %}
       </tr>
@@ -73,6 +70,10 @@
         <h3>{{ requested_user }} has not shared any tags.</h3>
       {% endif %}
     {% endfor %}
-  <div id="react-root"></div>
+    <div class="modal hidden-print" role="dialog" id="modal-edit-delete">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content"></div>
+      </div>
+    </div>
   </div>
 {% endblock %}
