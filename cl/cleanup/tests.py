@@ -65,7 +65,6 @@ class CitationTaxCleanup(TestCase):
 
 
 class CleanupTest(TestCase):
-
     def test_tax_court_cleanup_docket_numbers(self):
         """Find docket numbers in tax court opinions"""
         # First set of docket numbers is split over two pages- very difficult
