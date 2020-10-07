@@ -140,7 +140,7 @@ def update_judges_by_solr(candidate_id_map, debug):
                     ]
                 )
             ).replace(",", "")
-            results = conn.raw_query(
+            results = conn.query(
                 **{
                     "caller": "ftm_update_judges_by_solr",
                     "fq": [

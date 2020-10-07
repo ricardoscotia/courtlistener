@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.text import slugify
+from scorched import SolrInterface
 
 from cl.custom_filters.templatetags.extras import granular_date
 from cl.lib.bot_detector import is_bot
@@ -93,7 +94,7 @@ def view_person(request, pk, slug):
         "sort": "score desc",
         "caller": "view_person",
     }
-    authored_opinions = conn.raw_query(**q).execute()
+    authored_opinions = conn.query(**q).execute()
 
     # Use Solr to get the oral arguments for the judge
     conn = SolrInterface(settings.SOLR_AUDIO_URL, mode="r")
@@ -113,7 +114,7 @@ def view_person(request, pk, slug):
         "sort": "dateArgued desc",
         "caller": "view_person",
     }
-    oral_arguments_heard = conn.raw_query(**q).execute()
+    oral_arguments_heard = conn.query(**q).execute()
 
     return render(
         request,

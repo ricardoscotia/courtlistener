@@ -55,7 +55,7 @@ def reverse_match(conn, results, citing_doc):
         # See: http://wiki.apache.org/solr/SolrRelevancyCookbook#Term_Proximity
         params["q"] = '"%s"~%d' % (query, len(query_tokens))
         params["caller"] = "reverse_match"
-        new_results = conn.raw_query(**params).execute()
+        new_results = conn.query(**params).execute()
         if len(new_results) == 1:
             return [result]
     return []
@@ -70,7 +70,7 @@ def case_name_query(conn, params, citation, citing_doc):
     # and decreasing by one word each time until a match is found
     for num_words in range(length, 0, -1):
         params["mm"] = num_words
-        new_results = conn.raw_query(**params).execute()
+        new_results = conn.query(**params).execute()
         if len(new_results) >= 1:
             # For 1 result, make sure case name of match actually appears in
             # citing doc. For multiple results, use same technique to
@@ -135,7 +135,7 @@ def match_citation(citation, citing_doc=None):
 
     # Take 1: Use a phrase query to search the citation field.
     main_params["fq"].append('citation:("%s")' % citation.base_citation())
-    results = conn.raw_query(**main_params).execute()
+    results = conn.query(**main_params).execute()
     if len(results) == 1:
         return results
     if len(results) > 1:

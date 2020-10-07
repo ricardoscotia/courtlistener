@@ -482,7 +482,7 @@ def find_dups(docket, cluster):
         "rows": 100,
         "caller": "corpus_importer.import_columbia.populate_opinions",
     }
-    results = SOLR_CONN.raw_query(**params).execute()
+    results = SOLR_CONN.query(**params).execute()
     if len(results) == 1:
         # found the duplicate
         return results

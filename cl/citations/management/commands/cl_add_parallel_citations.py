@@ -108,7 +108,7 @@ class Command(VerboseCommand):
             main_params["fq"].append("court_exact:%s" % citation.court)
 
         # Query Solr
-        return self.conn.raw_query(**main_params).execute()
+        return self.conn.query(**main_params).execute()
 
     def handle_subgraph(self, sub_graph, options):
         """Add edges to the database if significant.
