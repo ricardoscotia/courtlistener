@@ -56,7 +56,7 @@ def follow_redirections(r, s):
 
 def get_extension(content):
     """A handful of workarounds for getting extensions we can trust."""
-    file_str = magic.from_buffer(content).decode()
+    file_str = magic.from_buffer(content)
     if file_str.startswith("Composite Document File V2 Document"):
         # Workaround for issue with libmagic1==5.09-2 in Ubuntu 12.04. Fixed
         # in libmagic 5.11-2.
