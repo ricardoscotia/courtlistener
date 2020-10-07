@@ -5,9 +5,9 @@ from collections import defaultdict
 import requests
 from django.conf import settings
 from django.utils.timezone import now
+from scorched import SolrInterface
 
 from cl.lib.command_utils import VerboseCommand, logger
-from cl.lib.sunburnt import SolrInterface
 from cl.people_db.import_judges.courtid_levels import courtid2statelevel
 from cl.people_db.models import Person
 

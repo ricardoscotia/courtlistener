@@ -79,7 +79,7 @@ class UpdateIndexCommandTest(SolrTestCase):
             ]
         )
         call_command("cl_update_index", *args)
-        results = self.si_opinion.raw_query(**{"q": "*"}).execute()
+        results = self.si_opinion.query("*").execute()
         actual_count = self._get_result_count(results)
         self.assertEqual(
             actual_count,
@@ -93,7 +93,7 @@ class UpdateIndexCommandTest(SolrTestCase):
         )
 
         # Check a simple citation query
-        results = self.si_opinion.raw_query(**{"q": "cites:3"}).execute()
+        results = self.si_opinion.query(cites=3).execute()
         actual_count = self._get_result_count(results)
         expected_citation_count = 2
         self.assertEqual(
@@ -116,7 +116,7 @@ class UpdateIndexCommandTest(SolrTestCase):
             ]
         )
         call_command("cl_update_index", *args)
-        results = self.si_opinion.raw_query(**{"q": "*"}).execute()
+        results = self.si_opinion.query("*").execute()
         actual_count = self._get_result_count(results)
         expected_citation_count = 0
         self.assertEqual(
@@ -127,24 +127,6 @@ class UpdateIndexCommandTest(SolrTestCase):
             % (actual_count, expected_citation_count),
         )
 
-        # Add things back, but do it by ID
-        args = list(self.args)  # Make a copy of the list.
-        args.extend(
-            [
-                "--solr-url",
-                "%s/solr/%s" % (settings.SOLR_HOST, self.core_name_opinion),
-                "--update",
-                "--items",
-                "1",
-                "2",
-                "3",
-                "--do-commit",
-            ]
-        )
-        call_command("cl_update_index", *args)
-        results = self.si_opinion.raw_query(**{"q": "*"}).execute()
-        actual_count = self._get_result_count(results)
-        expected_citation_count = 3
         self.assertEqual(
             actual_count,
             expected_citation_count,

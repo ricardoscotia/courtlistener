@@ -13,7 +13,6 @@ from cl.citations.find_citations import get_citations
 from cl.citations.match_citations import match_citation
 from cl.citations.models import Citation
 from cl.citations.utils import get_citation_depth_between_clusters
-from cl.lib import sunburnt
 from cl.lib.bot_detector import is_bot
 from cl.lib.scorched_utils import ExtraSolrInterface
 from cl.search.constants import (
@@ -1024,7 +1023,7 @@ def get_related_clusters_with_cache(cluster, request):
         # If it is a bot or is not beta tester, return empty results
         return [], [], url_search_params
 
-    conn = sunburnt.SolrInterface(settings.SOLR_OPINION_URL, mode="r")
+    conn = scorched.SolrInterface(settings.SOLR_OPINION_URL, mode="r")
 
     # Opinions that belong to the targeted cluster
     sub_opinion_ids = cluster.sub_opinions.values_list("pk", flat=True)

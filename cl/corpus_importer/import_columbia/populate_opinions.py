@@ -6,17 +6,17 @@ import string
 from collections import OrderedDict
 from datetime import date
 
+import scorched
 from django.conf import settings
 
 from cl.citations.find_citations import get_citations
-from cl.lib import sunburnt
 from cl.lib.import_lib import find_person
 from cl.lib.solr_core_admin import get_term_frequency
 from cl.search.models import Docket, Opinion, OpinionCluster
 from .convert_columbia_html import convert_columbia_html
 
 # only make a solr connection onece
-SOLR_CONN = sunburnt.SolrInterface(settings.SOLR_OPINION_URL, mode="r")
+SOLR_CONN = scorched.SolrInterface(settings.SOLR_OPINION_URL, mode="r")
 
 
 # used to identify dates

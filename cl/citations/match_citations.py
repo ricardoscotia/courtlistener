@@ -3,6 +3,7 @@
 
 from datetime import date, datetime
 
+import scorched
 from django.conf import settings
 from reporters_db import REPORTERS
 
@@ -13,7 +14,6 @@ from cl.citations.models import (
     IdCitation,
     NonopinionCitation,
 )
-from cl.lib import sunburnt
 from cl.search.models import Opinion
 from cl.custom_filters.templatetags.text_filters import best_case_name
 
@@ -108,7 +108,7 @@ def match_citation(citation, citing_doc=None):
       - a Solr Result object with the results, or an empty list if no hits
     """
     # TODO: Create shared solr connection for all queries
-    conn = sunburnt.SolrInterface(settings.SOLR_OPINION_URL, mode="r")
+    conn = scorched.SolrInterface(settings.SOLR_OPINION_URL, mode="r")
     main_params = {
         "q": "*",
         "fq": [

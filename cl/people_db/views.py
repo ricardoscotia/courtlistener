@@ -1,6 +1,7 @@
 import os
 
 import magic
+import scorched
 from django.conf import settings
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.urls import reverse
@@ -10,7 +11,6 @@ from django.utils.text import slugify
 
 from cl.custom_filters.templatetags.extras import granular_date
 from cl.lib.bot_detector import is_bot
-from cl.lib.sunburnt import SolrInterface
 from cl.people_db.models import Person, FinancialDisclosure
 from cl.stats.utils import tally_stat
 
@@ -72,7 +72,7 @@ def view_person(request, pk, slug):
     positions = judicial_positions + other_positions
 
     # Use Solr to get relevant opinions that the person wrote
-    conn = SolrInterface(settings.SOLR_OPINION_URL, mode="r")
+    conn = scorched.SolrInterface(settings.SOLR_OPINION_URL, mode="r")
     q = {
         "q": "author_id:{p} OR panel_ids:{p}".format(p=person.pk),
         "fl": [

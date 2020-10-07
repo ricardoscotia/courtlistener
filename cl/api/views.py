@@ -9,7 +9,6 @@ from rest_framework import status
 from rest_framework.status import HTTP_400_BAD_REQUEST
 
 from cl.api.utils import get_replication_statuses
-from cl.lib import sunburnt
 from cl.lib.search_utils import (
     build_coverage_query,
     build_court_count_query,
@@ -143,8 +142,8 @@ def coverage_data(request, version, court):
     else:
         court_str = "all"
     q = request.GET.get("q")
-    conn = sunburnt.SolrInterface(settings.SOLR_OPINION_URL, mode="r")
-    response = conn.raw_query(**build_coverage_query(court_str, q)).execute()
+    conn = scorched.SolrInterface(settings.SOLR_OPINION_URL, mode="r")
+    response = conn.query(**build_coverage_query(court_str, q)).execute()
     counts = response.facet_counts.facet_ranges[0][1][0][1]
     counts = strip_zero_years(counts)
 
