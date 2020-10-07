@@ -65,6 +65,7 @@ class CitationTaxCleanup(TestCase):
 
 
 class CleanupTest(TestCase):
+
     def test_tax_court_cleanup_docket_numbers(self):
         """Find docket numbers in tax court opinions"""
         # First set of docket numbers is split over two pages- very difficult
@@ -274,15 +275,15 @@ with Virginia Historic Tax Credit Fund""",
                                                any Form 8332 to his return. He also claimed head-of-house-
                                                hold filing status. His ex-wife, the custodial parent, timely
                                                filed a Federal income tax return""",
-                "5706–12",
+                "5706-12",
             ),
         )
         for q, a in test_pairs:
             print("Searching for %s" % a, end=" ")
             docket_numbers_found = get_tax_docket_numbers(q)
             self.assertEqual(
-                docket_numbers_found.encode("utf8"),
-                a.encode("utf8"),
+                docket_numbers_found.encode(),
+                a.encode(),
                 msg="Success",
             )
             print("✓")
@@ -454,5 +455,5 @@ VerDate Nov 24 2008   10:59 Jul 11, 2014   Jkt 372897   PO 20012   Frm 00002   F
             cite_string = " ".join(
                 [str(cite.volume), cite.reporter, str(cite.page)]
             )
-            self.assertEqual(cite_string, a, msg="Success")
+            self.assertEqual(cite_string, a.decode(), msg="Success")
             print("✓")
