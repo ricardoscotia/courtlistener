@@ -75,5 +75,5 @@ xlrd
 unidecode
 Pillow
 pyasn1
-# psycopg2
+psycopg2
 python-magic==0.4.18
