@@ -119,7 +119,7 @@ class Citation(object):
         else:
             paren = ""
         print_string = " ".join([print_string, paren])
-        return print_string.encode("utf-8")
+        return print_string
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
