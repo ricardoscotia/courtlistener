@@ -9,6 +9,7 @@ from rest_framework import status
 from rest_framework.status import HTTP_400_BAD_REQUEST
 
 from cl.api.utils import get_replication_statuses
+from cl.lib.scorched_utils import ExtraSolrInterface
 from cl.lib.search_utils import (
     build_coverage_query,
     build_court_count_query,
@@ -142,9 +143,25 @@ def coverage_data(request, version, court):
     else:
         court_str = "all"
     q = request.GET.get("q")
-    conn = scorched.SolrInterface(settings.SOLR_OPINION_URL, mode="r")
-    response = conn.query(**build_coverage_query(court_str, q)).execute()
-    counts = response.facet_counts.facet_ranges[0][1][0][1]
+    si = ExtraSolrInterface(settings.SOLR_OPINION_URL, mode="r")
+    fq = {}
+    if court_str.lower() != "all":
+        fq = {"court_exact": court_str}
+
+    response = (
+        si.query(**{"q": q or "*"})
+        .facet_range(
+            **{
+                "fields": "dateFiled",
+                "start": "1600-01-01T00:00:00Z",
+                "gap": "+1YEAR",
+                "end": "NOW/DAY",
+            }
+        )
+        .facet_query(**fq)
+        .execute()
+    )
+    counts = response.facet_counts.facet_ranges["dateFiled"]["counts"]
     counts = strip_zero_years(counts)
 
     # Calculate the totals
