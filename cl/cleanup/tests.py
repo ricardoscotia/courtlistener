@@ -59,7 +59,6 @@ class CitationTaxCleanup(TestCase):
                 answer = re.sub("–", "-", case["answer"])
                 answer = re.sub("—", "-", answer)
                 answer = re.sub("–", "-", answer)
-                print(answer)
                 self.assertEqual(get_tax_docket_numbers(case["text"]), answer)
                 print("Success ✓")
 
@@ -281,8 +280,8 @@ with Virginia Historic Tax Credit Fund""",
             print("Searching for %s" % a, end=" ")
             docket_numbers_found = get_tax_docket_numbers(q)
             self.assertEqual(
-                docket_numbers_found.encode(),
-                a.encode(),
+                docket_numbers_found,
+                a,
                 msg="Success",
             )
             print("✓")
@@ -454,5 +453,5 @@ VerDate Nov 24 2008   10:59 Jul 11, 2014   Jkt 372897   PO 20012   Frm 00002   F
             cite_string = " ".join(
                 [str(cite.volume), cite.reporter, str(cite.page)]
             )
-            self.assertEqual(cite_string, a.decode(), msg="Success")
+            self.assertEqual(cite_string, a, msg="Success")
             print("✓")
