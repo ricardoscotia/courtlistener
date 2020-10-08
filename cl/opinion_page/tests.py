@@ -41,7 +41,7 @@ class ViewDocumentTest(TestCase):
         """Does the page load properly?"""
         response = self.client.get("/opinion/1/asdf/")
         self.assertEqual(response.status_code, 200)
-        self.assertIn("33 state 1", response.content)
+        self.assertIn("33 state 1", response.content.decode())
 
 
 class CitationRedirectorTest(TestCase):
