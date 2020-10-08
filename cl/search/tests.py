@@ -682,7 +682,7 @@ class RelatedSearchTest(IndexedSolrTestCase):
 
         # Test if related opinion exist
         self.assertGreater(
-            r.content.index(
+            r.content.decode().index(
                 "'clickRelated_mlt_seed%i', %i," % (seed_pk, expected_first_pk)
             ),
             0,
